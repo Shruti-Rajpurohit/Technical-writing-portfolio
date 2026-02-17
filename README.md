@@ -8,7 +8,7 @@ I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal 
 
 | Document | Type | Status |
 |---|---|---|
-| [RAG Pipeline with ChromaDB and OpenAI](./docs/rag-pipeline-guide/) | Developer Guide | In Progress |
+| [RAG Pipeline with ChromaDB and Google Gemini](./docs/rag-pipeline-guide/) | Developer Guide | In Progress |
 
 ## About me
 
