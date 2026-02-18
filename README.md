@@ -8,7 +8,7 @@ I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal 
 
 | Document | Type | Status |
 |---|---|---|
-| [RAG Pipeline with ChromaDB and Google Gemini](./docs/rag-pipeline-guide/) | Developer Guide | In Progress |
+| [RAG Pipeline with ChromaDB and Google Gemini](./docs/rag-pipeline-guide/) | Developer Guide | ✅️ Complete |
 
 ## About me
 
@@ -19,9 +19,9 @@ I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal 
 
 ## Tools & Technologies
 
-**Writing & Docs:** Markdown, Git, GitHub, docs-as-code workflow
+**Writing & Docs:** Markdown, Git, GitHub, MS Office Suite, Google Workspace, Confluence, Snagit, Canva, docs-as-code workflow, WordPress
 
-**Technical:** Python, Django, REST APIs, AI/ML workflows, vector databases
+**Technical:** Python, Django, REST APIs, React, Bootstrap, AI/ML workflows, vector databases, LangChain Agents
 
 ## Contact
 
