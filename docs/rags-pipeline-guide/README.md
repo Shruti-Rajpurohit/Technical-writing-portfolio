@@ -1,9 +1,30 @@
 # Building a RAG pipeline with Python, ChromaDB and Google Gemini 
 
+## Table of Contents
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Setting Up Your API Key](#setting-up-your-api-key)
+- [Understanding the Architecture](#understanding-the-architecture)
+- [Building the Knowledge Base](#building-the-knowledge-base)
+- [Setting up the Retriever and LLM](#setting-up-the-retriever-and-llm)
+- [Building the RAG Chain](#building-the-rag-chain)
+- [Testing the Pipeline](#testing-the-pipeline)
+- [Next Steps and Best Practices](#next-steps-and-best-practices)
+  - [Loading Real Documents](#loading-real-documents)
+  - [Text Splitting for Large Documents](#text-splitting-for-large-documents)
+  - [Persisting the Vector Store](#persisting-the-vector-store)
+  - [Monitoring and Evaluation](#monitoring-and-evaluation)
+  - [Alternative Models](#alternative-models)
+- [Conclusion](#conclusion)
+
 ## Introduction
 Today, we all know how powerful Large Language Models (LLMs) are, but they have an underlying limitation: they can only answer questions based on the data they were trained on. When you ask an LLM about your internal product documentation, a private knowledge database, or anything that they weren't trained on before, either it will refuse to answer, or, worse, make something up on its own.
+
 Here Retrieval-Augmented Generation (RAG) comes into the picture.
+
 RAG works by connecting an LLM to an external knowledge base. Instead of relying solely on training data, the system first retrieves relevant documents from your knowledge base, then passes those documents to the LLM as context. The LLM generates an answer grounded in your actual data — not guesswork.
+
 In this guide, you will build a complete RAG pipeline from scratch using:
 - **Python** as the primary language
 - **ChromaDB** as the vector database
@@ -43,6 +64,7 @@ import os
 os.environ["GOOGLE_API_KEY"] = "your-api-key-here"
 ```
 > ⚠️ **Security Warning:** It is not a recommended practice to hardcode your API key directly in your code or commit it to a public GitHub repository for security reasons. Always use environment variables or a secrets manager to handle your API keys safely.
+
 If you are working on Google Colab, you can use Google Colab's built-in secret manager. Click the 🔑 **key icon** in the left sidebar, add your key as `GOOGLE_API_KEY`, and access it in your code like this:
 ```python
 from google.colab import userdata
@@ -50,7 +72,8 @@ os.environ["GOOGLE_API_KEY"] = userdata.get("GOOGLE_API_KEY")
 ```
 
 ## Understanding the Architecture
-Before diving straight to the code, it is important to understand how the different components interact in the system. 
+Before diving straight to the code, it is important to understand how the different components interact in the system.
+
 A RAG pipeline has two clearly defined phases:
 
 **Phase 1 - Indexing (runs once)**
@@ -93,9 +116,9 @@ embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
 Next, define your documents. In this guide, we use a fictional API called DataSync to keep things self-contained. In a real-world application, these documents might be extracted from PDFs, databases, web pages, or any text source.
 ```python
 documents = [
-    "DataSync API allows developers to synchronize data between multiple     databases in real-time. It supports PostgreSQL, MongoDB, and MySQL.",       
-    "Authentication in DataSync API uses API keys. Generate one from your     dashboard under Settings > API Keys.",       
-    "Rate limits are 100 requests/minute for Free tier and 1000     requests/minute for Pro tier.",        
+    "DataSync API allows developers to synchronize data between multiple databases in real-time. It supports PostgreSQL, MongoDB, and MySQL.",       
+    "Authentication in DataSync API uses API keys. Generate one from your dashboard under Settings > API Keys.",       
+    "Rate limits are 100 requests/minute for Free tier and 1000 requests/minute for Pro tier.",        
     # Add more documents as needed
 ]
 ```
@@ -130,11 +153,10 @@ llm = ChatGoogleGenerativeAI(
 )
 ```
 **Getting an understanding of used parameters**
-`search_kwargs={"k": 3}` is used to instruct the retriever to retrieve the top 3 most semantically similar documents for each query. You can set this 
-number higher for broader context, but keep in mind that the more documents you retrieve, the more tokens you are  sending to the LLM, which impacts both cost and response time.
 
-`temperature=0.3` is used to control how creative or deterministic the model's 
-responses are. The temperature range is 0 to 1, where 0 is completely deterministic and 1 is highly creative. When you're documenting or answering factual questions, a low temperature setting of 0.3 is ideal to ensure the output is accurate and consistent.
+`search_kwargs={"k": 3}` is used to instruct the retriever to retrieve the top 3 most semantically similar documents for each query. You can set this number higher for broader context, but keep in mind that the more documents you retrieve, the more tokens you are  sending to the LLM, which impacts both cost and response time.
+
+`temperature=0.3` is used to control how creative or deterministic the model's responses are. The temperature range is 0 to 1, where 0 is completely deterministic and 1 is highly creative. When you're documenting or answering factual questions, a low temperature setting of 0.3 is ideal to ensure the output is accurate and consistent.
 
 ## Building the RAG Chain
 
@@ -206,8 +228,7 @@ ask("Does DataSync support Firebase?")
 
 **Expected behavior:**
 
-The first three questions should return accurate answers directly retrieved 
-from your documents. The last question about Firebase — which we never mentioned in our knowledge base - should return something like  "I don't have information about that."
+The first three questions should return accurate answers directly retrieved from your documents. The last question about Firebase — which we never mentioned in our knowledge base - should return something like  "I don't have information about that."
 
 This behavior is called **staying grounded**. Unlike a standard LLM that could hallucinate an answer, a well constructed RAG system only responds with information it can retrieve from the knowledge base.
 
