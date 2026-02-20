@@ -9,6 +9,7 @@ I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal 
 | Document | Type | Status |
 |---|---|---|
 | [RAG Pipeline with ChromaDB and Google Gemini](docs/rags-pipeline-guide) | Developer Guide | ✅️ Complete |
+| [SpaceX Launch Tracker with Python](docs/spacex-launch-tracker) | Tutorial | ✅ Complete |
 
 ## About me
 
