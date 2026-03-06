@@ -98,10 +98,11 @@ Once you have filled in your details, click **Meet Aria** to save your profile a
 
 The chat is where the magic happens. Just talk to Aria like you would a friend who happens to be a stylist.
 
+Desktop View:
 ![Chat page - Desktop view](./screenshots/desktop-view.jpg)
 
 ---
-
+Mobile View:
 ![Chat page - Mobile view](./screenshots/mobile-view.jpg)
 
 ### What you can ask
