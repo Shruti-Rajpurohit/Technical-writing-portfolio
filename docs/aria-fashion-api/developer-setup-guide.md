@@ -337,3 +337,11 @@ Railway will provide a URL like `your-app.up.railway.app`. Your app is now live.
 ---
 
 *For API endpoint documentation, see the [Aria Fashion API Reference](https://shruti-rajpurohit.github.io/Technical-writing-portfolio/docs/aria-fashion-api/index.html).*
+
+## Contact
+
+Questions or feedback about the documentation or the project?
+
+- **Email:** rajpurohitshruti20@gmail.com
+- **GitHub:** [Shruti-Rajpurohit](https://github.com/Shruti-Rajpurohit)
+- **LinkedIn:** [Shruti Rajpurohit](https://www.linkedin.com/in/shruti-rajpurohit-976b44226)
