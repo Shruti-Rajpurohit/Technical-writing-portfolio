@@ -7,7 +7,7 @@ info:
     It allows applications to authenticate users, manage style profiles, perform image analysis using computer vision, and produce AI-driven fashion suggestions through a conversational interface.
 
 
-## Overview
+    ## Overview
 
     Aria is the result of the fusion of two AI systems for a personalized fashion styling experience:
     - **Mistral AI** is a conversational AI-driven fashion advice tool. It uses the user profile to produce personalized fashion suggestions for outfits, footwear, accessories, and hairstyles.
