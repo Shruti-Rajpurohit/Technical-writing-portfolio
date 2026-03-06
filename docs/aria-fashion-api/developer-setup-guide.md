@@ -180,7 +180,7 @@ http://localhost:3000
 
 You should see the Aria landing page. Click **Get Started** to create an account and complete your style profile.
 
-> **[SCREENSHOT: Aria landing page in browser]**
+![Aria landing page](./screenshots/landing-page.jpg)
 
 ---
 
