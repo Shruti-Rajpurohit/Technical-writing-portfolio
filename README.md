@@ -4,6 +4,8 @@ Hi, I'm Shruti Rajpurohit — a technical writer with a background in science an
 
 I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal is always the same: make complex technical concepts clear, accurate, and genuinely useful for the reader.
 
+---
+
 ## What's in this portfolio
 
 | Document | Type | Tools | Status |
@@ -36,11 +38,15 @@ I documented it end to end across three documents covering the full spectrum of 
 - ✍️ Passionate about making technical concepts accessible
 - 🔧 Comfortable working with developers, reading codebases, and shipping docs
 
+---
+
 ## Tools & Technologies
 
 **Writing & Docs:** Markdown, OpenAPI 3.0, Git, GitHub, MS Office Suite, Google Workspace, Redocly, Confluence, Snagit, Canva, docs-as-code workflow, WordPress
 
 **Technical:** Python, Django, REST APIs, Node.js, React, Bootstrap, MongoDB, AI/ML workflows, vector databases, LangChain Agents
+
+---
 
 ## Contact
 
