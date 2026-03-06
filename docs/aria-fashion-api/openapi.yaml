@@ -1,0 +1,647 @@
+openapi: 3.0.3
+
+info:
+  title: Aria Fashion API
+  version: 1.0.0
+  description: The Aria Fashion API powers a personalized AI fashion styling experience. It enables applications to authenticate users, manage style profiles, analyze images using computer vision, and generate AI-driven fashion recommendations through a conversational interface. Aria combines Mistral AI for conversational styling advice personalized to the user profile, and Meta LLaMA 4 Vision via Groq for analyzing uploaded images to extract appearance and style details. All endpoints except /api/signup and /api/login require a Bearer token in the Authorization header. Tokens expire after 30 days.
+  contact:
+    name: Shruti Rajpurohit
+    email: rajpurohitshruti20@gmail.com
+    url: https://github.com/Shruti-Rajpurohit
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://aria-fashion-stylist-production.up.railway.app
+    description: Production server
+
+tags:
+  - name: Authentication
+    description: Register and authenticate users
+  - name: Profile
+    description: Manage user style profiles
+  - name: Chat
+    description: AI-powered fashion styling conversation
+  - name: Vision
+    description: Image analysis using computer vision
+  - name: History
+    description: Manage conversation history
+
+paths:
+
+  /api/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Register a new user
+      description: Creates a new user account and returns a JWT token. New users are redirected to complete their style profile before accessing the chat.
+      operationId: signupUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+            example:
+              email: shruti@example.com
+              password: mypassword123
+      responses:
+        '200':
+          description: User successfully registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              example:
+                success: true
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                userId: user_1709481234567
+                hasProfile: false
+        '400':
+          description: Validation error or email already registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missing_fields:
+                  summary: Missing fields
+                  value:
+                    error: All fields are required
+                email_taken:
+                  summary: Email already registered
+                  value:
+                    error: Email already registered
+
+  /api/login:
+    post:
+      tags:
+        - Authentication
+      summary: Authenticate an existing user
+      description: Validates credentials and returns a JWT token. The response includes hasProfile to indicate whether the user has completed onboarding.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+            example:
+              email: shruti@example.com
+              password: mypassword123
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+              example:
+                success: true
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                userId: user_1709481234567
+                hasProfile: true
+        '400':
+          description: Invalid credentials or missing fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: Invalid email or password
+
+  /api/profile:
+    post:
+      tags:
+        - Profile
+      summary: Create or update a style profile
+      description: Saves the user style profile including physical attributes, color preferences, budget range, and occasions. If a profile already exists it is overwritten. Optionally includes a base64-encoded avatar thumbnail and AI-generated appearance analysis.
+      operationId: saveProfile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+      responses:
+        '200':
+          description: Profile saved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '400':
+          description: Missing userId or profile data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: Missing userId or profile
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/profile/{userId}:
+    get:
+      tags:
+        - Profile
+      summary: Retrieve a user style profile
+      description: Returns the complete style profile for the specified user. Used by the chat interface to personalize AI recommendations and by the profile edit page to pre-fill form fields.
+      operationId: getProfile
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user
+          schema:
+            type: string
+            example: user_1709481234567
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: Profile not found
+
+  /api/chat:
+    post:
+      tags:
+        - Chat
+      summary: Send a message to Aria
+      description: Sends a user message to Aria and returns a personalized AI fashion response. Aria responses are informed by the user full style profile. Optionally accepts imageAnalysis from POST /api/analyze-chat-image. Conversation history is passed with each request to maintain context.
+      operationId: sendChatMessage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+            examples:
+              text_only:
+                summary: Text message only
+                value:
+                  userId: user_1709481234567
+                  message: What should I wear for a casual day out?
+                  history: []
+              with_image:
+                summary: Message with image analysis
+                value:
+                  userId: user_1709481234567
+                  message: I love this style, what can you suggest?
+                  history: []
+                  imageAnalysis: The image shows a relaxed linen co-ord set in off-white with wide-leg trousers.
+      responses:
+        '200':
+          description: AI response generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+              example:
+                response: Love that vibe! For a casual day out here is what I would suggest for you...
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: User profile not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: Profile not found
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/analyze-profile-photo:
+    post:
+      tags:
+        - Vision
+      summary: Analyze a profile photo
+      description: Accepts a user photo and uses Meta LLaMA 4 Vision via Groq to extract appearance details relevant to fashion styling including skin tone, hair color and texture, eye color, and face shape. The analysis is stored in the user profile and referenced by Aria during conversations. Images are processed with a 30-second timeout. Maximum file size is 10MB.
+      operationId: analyzeProfilePhoto
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - photo
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: The user photo file
+      responses:
+        '200':
+          description: Photo analyzed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisionResponse'
+              example:
+                success: true
+                analysis: Skin tone is medium-olive. Hair is dark brown straight and shoulder-length. Eyes appear dark brown. Face shape is oval.
+        '400':
+          description: No image uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: No image uploaded
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/analyze-chat-image:
+    post:
+      tags:
+        - Vision
+      summary: Analyze a reference image
+      description: Accepts a reference image shared during chat and uses Meta LLaMA 4 Vision via Groq to analyze its fashion content. The analysis describes garments, footwear, hairstyles, or accessories visible in the image along with the overall aesthetic. The returned analysis string should be passed as imageAnalysis in the subsequent POST /api/chat request.
+      operationId: analyzeChatImage
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: The reference image file
+      responses:
+        '200':
+          description: Image analyzed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisionResponse'
+              example:
+                success: true
+                analysis: The image shows a monochrome streetwear outfit. Oversized black graphic tee with straight-leg black cargo pants and chunky platform boots.
+        '400':
+          description: No image uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: No image uploaded
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /api/history:
+    post:
+      tags:
+        - History
+      summary: Save conversation history
+      description: Persists the current conversation history for a user. Called automatically by the client after each exchange to ensure history survives page refreshes and logouts.
+      operationId: saveHistory
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistoryRequest'
+            example:
+              userId: user_1709481234567
+              history:
+                - role: user
+                  text: What should I wear for a casual day out?
+                - role: model
+                  text: For a casual day out here is what I would suggest...
+      responses:
+        '200':
+          description: History saved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/history/{userId}:
+    get:
+      tags:
+        - History
+      summary: Retrieve conversation history
+      description: Returns the full conversation history for a user. Called on chat page load to restore previous messages. Returns an empty array if no history exists.
+      operationId: getHistory
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: The unique identifier of the user
+          schema:
+            type: string
+            example: user_1709481234567
+      responses:
+        '200':
+          description: History retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+              example:
+                history:
+                  - role: user
+                    text: What should I wear for a casual day out?
+                  - role: model
+                    text: For a casual day out here is what I would suggest...
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token obtained from /api/login or /api/signup. Expires after 30 days.
+
+  responses:
+    Unauthorized:
+      description: Missing or invalid authentication token
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            no_token:
+              summary: No token provided
+              value:
+                error: No token provided
+            invalid_token:
+              summary: Invalid token
+              value:
+                error: Invalid token
+    ServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error: An unexpected error occurred
+
+  schemas:
+
+    AuthRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: The user email address
+          example: shruti@example.com
+        password:
+          type: string
+          format: password
+          minLength: 6
+          description: The user password, minimum 6 characters
+          example: mypassword123
+
+    AuthResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        token:
+          type: string
+          description: JWT token for authenticating subsequent requests
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        userId:
+          type: string
+          description: Unique identifier for the user
+          example: user_1709481234567
+        hasProfile:
+          type: boolean
+          description: Whether the user has completed their style profile
+          example: true
+
+    Profile:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Display name used by Aria
+          example: Shruti
+        gender:
+          type: string
+          enum:
+            - Male
+            - Female
+            - Non-binary
+            - Prefer not to say
+          example: Female
+        ageGroup:
+          type: string
+          example: Young Adult (18-24)
+        bodyType:
+          type: string
+          enum:
+            - Slim/Lean
+            - Athletic
+            - Average
+            - Curvy
+            - Plus Size
+            - Petite
+          example: Athletic
+        skinTone:
+          type: string
+          enum:
+            - Fair
+            - Light
+            - Medium
+            - Olive
+            - Tan
+            - Deep/Dark
+          example: Medium
+        height:
+          type: string
+          description: User height in any format
+          example: 5ft 4in
+        preferredStyle:
+          type: string
+          example: Casual
+        favoriteColors:
+          type: string
+          description: Comma-separated list of preferred colors
+          example: Black, Beige, Olive green, Nude
+        colorsToAvoid:
+          type: string
+          description: Comma-separated list of colors to avoid
+          example: Neon, Hot pink
+        budget:
+          type: string
+          enum:
+            - Budget-friendly
+            - Mid-range
+            - Premium
+            - Luxury
+          example: Mid-range
+        occasions:
+          type: string
+          description: Comma-separated list of occasions
+          example: Casual hangouts, Dates, College
+        notes:
+          type: string
+          description: Additional styling preferences or constraints
+          example: I prefer modest clothing and love layering
+        photoAnalysis:
+          type: string
+          nullable: true
+          description: AI-generated appearance description from profile photo
+          example: Skin tone is medium-olive. Hair is dark brown straight...
+        avatar:
+          type: string
+          nullable: true
+          description: Base64-encoded JPEG thumbnail 80x80px
+          example: data:image/jpeg;base64,/9j/4AAQSkZJRgAB...
+
+    ProfileRequest:
+      type: object
+      required:
+        - userId
+        - profile
+      properties:
+        userId:
+          type: string
+          example: user_1709481234567
+        profile:
+          $ref: '#/components/schemas/Profile'
+
+    ChatRequest:
+      type: object
+      required:
+        - userId
+        - message
+      properties:
+        userId:
+          type: string
+          example: user_1709481234567
+        message:
+          type: string
+          description: The user message to Aria
+          example: What should I wear for a casual day out?
+        history:
+          type: array
+          description: Previous messages for context
+          items:
+            $ref: '#/components/schemas/HistoryItem'
+        imageAnalysis:
+          type: string
+          nullable: true
+          description: Text analysis of a reference image from POST /api/analyze-chat-image
+          example: The image shows a relaxed linen co-ord set in off-white...
+
+    ChatResponse:
+      type: object
+      properties:
+        response:
+          type: string
+          description: Aria personalized fashion advice
+          example: Love that vibe! For a casual day out here is what I would suggest...
+
+    VisionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        analysis:
+          type: string
+          description: Detailed text description of the analyzed image
+          example: Skin tone is medium-olive. Hair is dark brown...
+
+    HistoryItem:
+      type: object
+      properties:
+        role:
+          type: string
+          enum:
+            - user
+            - model
+          description: Whether the message was sent by the user or Aria
+          example: user
+        text:
+          type: string
+          description: The message content
+          example: What should I wear for a casual day out?
+
+    HistoryRequest:
+      type: object
+      required:
+        - userId
+        - history
+      properties:
+        userId:
+          type: string
+          example: user_1709481234567
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryItem'
+
+    HistoryResponse:
+      type: object
+      properties:
+        history:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryItem'
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message
+          example: Invalid email or password
