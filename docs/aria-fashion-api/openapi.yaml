@@ -6,7 +6,6 @@ info:
     **The Aria Fashion API** is the power behind a personalized AI-driven fashion styling experience.
     It allows applications to authenticate users, manage style profiles, perform image analysis using computer vision, and produce AI-driven fashion suggestions through a conversational interface.
 
-
     ## Overview
 
     Aria is the result of the fusion of two AI systems for a personalized fashion styling experience:
@@ -19,7 +18,6 @@ info:
     passed in the Authorization header.
 
     Tokens are issued on login or signup and expire after 30 days.
-
   contact:
     name: Shruti Rajpurohit
     email: rajpurohitshruti20@gmail.com
