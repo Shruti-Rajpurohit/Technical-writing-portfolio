@@ -100,6 +100,8 @@ The chat is where the magic happens. Just talk to Aria like you would a friend w
 
 ![Chat page - Desktop view](./screenshots/desktop-view.jpg)
 
+---
+
 ![Chat page - Mobile view](./screenshots/mobile-view.jpg)
 
 ### What you can ask
