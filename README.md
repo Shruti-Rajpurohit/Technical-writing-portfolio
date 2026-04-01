@@ -25,7 +25,7 @@ Aria is a full-stack AI fashion stylist web app I built and deployed from scratc
 
 I documented it end to end across three documents covering the full spectrum of technical writing — an API reference for developers, a setup guide for contributors, and a user guide for non-technical users.
 
-- 🌐 **Live app:** [aria-fashion-stylist-production.up.railway.app](https://aria-fashion-stylist-production.up.railway.app)
+- 🌐 **Live app:** [https://aria-fashion-stylist.onrender.com](https://aria-fashion-stylist.onrender.com)
 - 📖 **Live API reference:** [View on GitHub Pages](https://shruti-rajpurohit.github.io/Technical-writing-portfolio/docs/aria-fashion-api/index.html)
 - 💻 **App source code:** [aria-fashion-stylist](https://github.com/Shruti-Rajpurohit/aria-fashion-stylist)
 
