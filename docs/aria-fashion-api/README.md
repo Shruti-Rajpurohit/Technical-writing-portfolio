@@ -4,7 +4,7 @@ Live documentation: [View API Reference](https://shruti-rajpurohit.github.io/Tec
 
 ## Overview
 
-Welcome to the complete API documentation for the Aria Fashion API, the backend for the full-stack AI Fashion Stylist web application I developed and deployed from scratch: [Aria Fashion Stylist](https://aria-fashion-stylist-production.up.railway.app).
+Welcome to the complete API documentation for the Aria Fashion API, the backend for the full-stack AI Fashion Stylist web application I developed and deployed from scratch: [Aria Fashion Stylist](https://aria-fashion-stylist.onrender.com).
 
 The API handles user authentication, style profile management, AI-powered chat, and computer vision-based image analysis. I wrote this reference by reading the codebase directly and documenting every endpoint, request schema, response schema, and error code.
 
