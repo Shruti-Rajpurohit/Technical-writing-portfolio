@@ -25,7 +25,7 @@ Aria works right inside your web browser, so you don't need to download anything
 
 **To open Aria:**
 
-1. Go to [aria-fashion-stylist-production.up.railway.app](https://aria-fashion-stylist-production.up.railway.app) in your browser
+1. Go to [https://aria-fashion-stylist.onrender.com](https://aria-fashion-stylist.onrender.com) in your browser
 2. Click **Get Started** to create a new account, or **I already have an account** if you have logged in before
 
 ![Aria landing page](./screenshots/aria-landing-page.jpg)
