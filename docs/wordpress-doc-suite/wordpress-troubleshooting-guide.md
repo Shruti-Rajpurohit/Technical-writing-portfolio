@@ -14,6 +14,7 @@
 - [General Troubleshooting Checklist](#general-troubleshooting-checklist)
 - [When to Contact Support](#when-to-contact-support)
 - [Final Note](#final-note)
+- [Related Guides](#related-guides)
 
 ## Introduction 
 If something on your WordPress site is not working as expected, you are not alone. You can run into issues at any stage, whether you are just starting or actively managing a site.
@@ -220,3 +221,7 @@ Troubleshooting is a skill. The more you practice it, the easier it becomes to i
 Take a structured approach, stay patient, and treat each issue as a learning opportunity.
 
 ---
+## Related Guides
+* [Getting Started with WordPress](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-onboarding-guide.md)
+* [WordPress Help Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-help-guide.md)
+* [WooCommerce Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/woocommerce-guide.md)
