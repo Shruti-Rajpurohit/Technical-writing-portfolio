@@ -16,6 +16,10 @@ I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal 
 | [Aria Fashion API Reference](docs/aria-fashion-api/index.html) | API Reference | OpenAPI 3.0, Redocly, GitHub Pages | ✅ Complete |
 | [Aria Developer Setup Guide](docs/aria-fashion-api/developer-setup-guide.md) | Developer Guide | Markdown, GitHub | ✅ Complete |
 | [Aria User Guide](docs/aria-fashion-api/user-guide.md) | User Guide | Markdown, GitHub | ✅ Complete |
+| [WordPress Onboarding Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-onboarding-guide.md) | User Guide | Markdown, GitHub | ✅️ Complete |
+| [WordPress Help Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-help-guide.md) | User Guide | Markdown, GitHub | ✅️ Complete |
+| [WordPress Troubleshooting Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-troubleshooting-guide.md) | Troubleshooting Guide | Markdown, GitHub | ✅️ Complete |
+| [WooCommerce Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/woocommerce-guide.md) | User Guide | Markdown, GitHub | ✅️ Complete |
 
 ---
 
