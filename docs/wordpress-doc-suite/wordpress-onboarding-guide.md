@@ -145,3 +145,4 @@ You’re ready to:
 Ready to go deeper? Check out:
 * **[WordPress Help Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-help-guide.md):** customization, plugins, and media
 * **[WordPress Troubleshooting Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-troubleshooting-guide.md):** fixing common issues
+* **[WooCommerce Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/woocommerce-guide.md):** setup your store and get ready to sell your products or services
