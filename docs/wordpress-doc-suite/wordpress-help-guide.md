@@ -267,6 +267,6 @@ You can start:
 
 For common issues and fixes, check the [WordPress Troubleshooting Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/wordpress-troubleshooting-guide.md)
 
-Ready to sell online? Check out the [WooCommerce Beginner's Guide]()
+Ready to sell online? Check out the [WooCommerce Beginner's Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/wordpress-doc-suite/woocommerce-guide.md)
 
 ----------
