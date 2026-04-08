@@ -1,6 +1,6 @@
 # Technical Writing Portfolio
 
-Hi, I'm Shruti Rajpurohit — a technical writer with a background in science and software development.
+Hi, I'm Shruti Rajpurohit, a technical writer with a background in science and software development.
 
 I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal is always the same: make complex technical concepts clear, accurate, and genuinely useful for the reader.
 
