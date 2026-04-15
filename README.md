@@ -10,6 +10,7 @@ I specialize in documenting developer tools, APIs, and AI/ML workflows. My goal 
 
 | Document | Type | Tools | Status |
 |----------|------|-------|--------|
+| [HI-ECN3 Infrastructure Documentation Suite](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/hi-ecn3-infrastructure-documentation-suite/hi-ecn3-infrastructure-documentation-suite.md) | CERN ECR/TDR Documentation | Markdown, GitHub | ✅️ Complete |
 | [Agent-to-Agent Payment Architecture Guide](https://github.com/Shruti-Rajpurohit/Technical-writing-portfolio/blob/main/docs/agent-to-agent-payment-guide/agent-to-agent-payment-architecture-guide.md) | Architecture Guide | Markdown, GitHub, Pi² Labs | ✅️ Complete |
 | [RAG Pipeline with ChromaDB and Google Gemini](docs/rags-pipeline-guide) | Developer Guide | Markdown, GitHub | ✅ Complete |
 | [SpaceX Launch Tracker with Python](docs/spacex-launch-tracker) | Tutorial | Markdown, GitHub | ✅ Complete |
