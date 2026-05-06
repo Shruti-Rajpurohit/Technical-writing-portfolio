@@ -2,7 +2,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [What is an Agent-to-Agent Payment?](#what-is-an-agent-to-agent-payment)
-- [Why Traditional Payment Systems Fail Here](#why-traditional-payment-system-fail-here)
+- [Why Traditional Payment Systems Fail Here](#why-traditional-payment-systems-fail-here)
 - [Core Architecture of Agent-to-Agent Payments](#core-architecture-of-agent-to-agent-payments)
     - [Agent Initiation Layer](#agent-initiation-layer)
     - [Validation Layer](#validation-layer)
