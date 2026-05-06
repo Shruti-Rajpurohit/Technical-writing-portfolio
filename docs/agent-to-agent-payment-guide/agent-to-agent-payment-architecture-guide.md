@@ -8,7 +8,7 @@
     - [Validation Layer](#2-validation-layer)
     - [Settlement Layer](#3-settlement-layer)
     - [Confirmation Layer](#4-confirmation-layer)
-- [The Role of Pi² Labs](#the-role-of-pi2-labs)
+- [The Role of Pi² Labs](#the-role-of-pi-labs)
 - [Key Design Challenges (And how Fast addresses them)](#key-design-challenges-and-how-fast-addresses-them)
     - [Independence From Manual Intervention](#1-independence-from-manual-intervention)
     - [High-Frequency Transaction Handling](#2-high-frequency-transaction-handling)
