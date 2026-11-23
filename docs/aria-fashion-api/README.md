@@ -12,8 +12,12 @@ The API handles user authentication, style profile management, AI-powered chat, 
 
 - Authentication endpoints (signup, login)
 - Style profile creation and retrieval
-- AI chat endpoint with conversation history
-- Vision endpoints for profile photo and reference image analysis
+- AI chat endpoint with conversation history and chat management
+- Chat endpoints: POST /api/chats, GET /api/chats, GET /api/chats/{chatId}, and DELETE /api/chats/{chatId}
+- Chat full behavior using replyCount >= 8 and nudge behavior using replyCount >= 5
+- Updated POST /api/chat request/response fields: chatId, message, imageAnalysis, response, nudge, full, error, and CHAT_FULL
+- Vision endpoints for profile photo and reference image analysis, including updated /api/analyze-chat-images
+- Multiple reference images per chat message, up to 3 images, with MAX_CHAT_IMAGE_SIZE = 10 * 1024 * 1024, the images FormData field, and image resizing
 - Complete request/response schemas with examples
 - JWT authentication flow
 - Error codes and handling

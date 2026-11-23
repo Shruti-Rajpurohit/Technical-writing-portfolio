@@ -188,7 +188,7 @@ paths:
       tags:
         - Chat
       summary: Send a message to Aria
-      description: Sends a user message to Aria and returns a personalized AI fashion response. Aria responses are informed by the user full style profile. Optionally accepts imageAnalysis from POST /api/analyze-chat-image. Conversation history is passed with each request to maintain context.
+      description: Creates or continues a chat with Aria and returns a personalized AI fashion response. Accepts chatId, message, and optional imageAnalysis. Conversation history is passed with each request to maintain context.
       operationId: sendChatMessage
       security:
         - bearerAuth: []
@@ -202,13 +202,13 @@ paths:
               text_only:
                 summary: Text message only
                 value:
-                  userId: user_1709481234567
+                  chatId: chat_1709481234567
                   message: What should I wear for a casual day out?
                   history: []
               with_image:
                 summary: Message with image analysis
                 value:
-                  userId: user_1709481234567
+                  chatId: chat_1709481234567
                   message: I love this style, what can you suggest?
                   history: []
                   imageAnalysis: The image shows a relaxed linen co-ord set in off-white with wide-leg trousers.
@@ -220,20 +220,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/ChatResponse'
               example:
-                response: Love that vibe! For a casual day out here is what I would suggest for you...
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          description: User profile not found
+                response: Love that vibe! For a casual day out here is what I would suggest...
+                nudge: Consider adding a scarf...
+                full: false
+                error: null
+        '400':
+          description: Invalid chat request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
               example:
-                error: Profile not found
+                error: chatId is required
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '500':
-          $ref: '#/components/responses/ServerError'
-
+          $ref: '#/components/responses/ServerError
   /api/analyze-profile-photo:
     post:
       tags:
@@ -283,8 +285,9 @@ paths:
     post:
       tags:
         - Vision
-      summary: Analyze a reference image
-      description: Accepts a reference image shared during chat and uses Meta LLaMA 4 Vision via Groq to analyze its fashion content. The analysis describes garments, footwear, hairstyles, or accessories visible in the image along with the overall aesthetic. The returned analysis string should be passed as imageAnalysis in the subsequent POST /api/chat request.
+      summary: Analyze a chat reference image
+      deprecated: true
+      description: Deprecated. Use /api/analyze-chat-images instead. Accepts a single image and uses Meta LLaMA 4 Vision via Groq to generate a text analysis for Aria. Maximum file size is 10MB.
       operationId: analyzeChatImage
       security:
         - bearerAuth: []
@@ -295,22 +298,22 @@ paths:
             schema:
               type: object
               required:
-                - image
+                - photo
               properties:
-                image:
+                photo:
                   type: string
                   format: binary
                   description: The reference image file
       responses:
         '200':
-          description: Image analyzed successfully
+          description: Image analysis generated successfully
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/VisionResponse'
               example:
                 success: true
-                analysis: The image shows a monochrome streetwear outfit. Oversized black graphic tee with straight-leg black cargo pants and chunky platform boots.
+                analysis: The image shows a relaxed linen co-ord set in off-white with wide-leg trousers.
         '400':
           description: No image uploaded
           content:
@@ -322,8 +325,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
         '500':
-          $ref: '#/components/responses/ServerError'
-
+          $ref: '#/components/responses/ServerError
   /api/history:
     post:
       tags:
@@ -393,6 +395,136 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 
+  /api/chats:
+    get:
+      tags:
+        - Chat
+      summary: List user chats
+      operationId: listChats
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Chat list retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatsResponse'
+              example:
+                chats:
+                  - chatId: chat_1709481234567
+                    replyCount: 0
+                    updatedAt: 2025-03-01T12:00:00Z
+    post:
+      tags:
+        - Chat
+      summary: Create chat
+      operationId: createChat
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '201':
+          description: Chat created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+  /api/chats/{chatId}:
+    get:
+      tags:
+        - Chat
+      summary: Get chat details
+      operationId: getChat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: chat_1709481234567
+      responses:
+        '200':
+          description: Chat retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+    delete:
+      tags:
+        - Chat
+      summary: Delete chat
+      operationId: deleteChat
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: chatId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: chat_1709481234567
+      responses:
+        '200':
+          description: Chat deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteChatResponse'
+  /api/analyze-chat-images:
+    post:
+      tags:
+        - Vision
+      summary: Analyze chat reference images
+      description: Accepts up to 3 images in the images FormData field and uses Meta LLaMA 4 Vision via Groq to generate a text analysis for Aria. Maximum file size is 10MB per image.
+      operationId: analyzeChatImages
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - images
+              properties:
+                images:
+                  type: array
+                  maxItems: 3
+                  items:
+                    type: string
+                    format: binary
+                  description: Up to 3 reference image files
+      responses:
+        '200':
+          description: Image analysis generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VisionResponse'
+              example:
+                success: true
+                analysis: The image shows a relaxed linen co-ord set in off-white with wide-leg trousers.
+        '400':
+          description: No images uploaded or too many images
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: No images uploaded
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/ServerError
 components:
 
   securitySchemes:
