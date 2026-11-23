@@ -204,7 +204,7 @@ Aria uses the `mistral-small-latest` model for all chat responses.
 4. Click **Create API Key**
 5. Copy the key and paste it as `GROQ_API_KEY` in your `.env` file
 
-Aria uses the `meta-llama/llama-4-maverick-17b-128e-instruct` model for image analysis. The free tier allows up to 7,000 requests per day.
+Aria uses the `meta-llama/llama-4-vision` model for image analysis. The free tier allows up to 7,000 requests per day.
 
 ### MongoDB Atlas
 
@@ -254,7 +254,7 @@ Copy the output and paste it as your `JWT_SECRET`.
 
 **Error:** `Vision error: This operation was aborted`
 
-**Fix:** The image being uploaded may be too large or the Groq API is under load. The app will continue without the analysis — the profile will still be saved. Try again with a smaller image (under 2MB recommended).
+**Fix:** The image being uploaded may be too large or the Groq API is under load. The app will continue without the analysis — the profile will still be saved. Try again with a smaller image (under 10MB recommended, or within the `MAX_CHAT_IMAGE_SIZE = 10 * 1024 * 1024` limit).
 
 ---
 
@@ -262,7 +262,7 @@ Copy the output and paste it as your `JWT_SECRET`.
 
 **Error:** `Could not reach the server. Is it running?`
 
-**Fix:** Make sure `node server.js` is running in your terminal. If the server is running, check that your `MISTRAL_API_KEY` is valid and has not exceeded its rate limit.
+**Fix:** Make sure `npm start` is running in your terminal. If the server is running, check that your `MISTRAL_API_KEY` is valid and has not exceeded its rate limit.
 
 ---
 
@@ -275,6 +275,21 @@ Copy the output and paste it as your `JWT_SECRET`.
 ```javascript
 const PORT = process.env.PORT || 3001;
 ```
+
+---
+
+### Local Development Setup
+
+1. Run `npm install` in the project root to install dependencies.
+2. Run `npm start` in the project root to start the server.
+
+---
+
+### Frontend API Requests Fail
+
+**Error:** Network errors or CORS errors when using the chat or image endpoints.
+
+**Fix:** The frontend now uses `const API_BASE = window.location.origin;` for API calls. For local development, run the backend with `npm start` and open the app through the local server. For deployed environments, ensure the frontend and API are served from the same origin or configure the backend URL.
 
 ---
 

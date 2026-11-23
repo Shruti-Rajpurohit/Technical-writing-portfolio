@@ -102,6 +102,7 @@ Desktop View:
 ![Chat page - Desktop view](./screenshots/desktop-view.jpg)
 
 ---
+
 Mobile View:
 ![Chat page - Mobile view](./screenshots/mobile-view.jpg)
 
@@ -146,23 +147,39 @@ Aria remembers your conversation within the same session and across sessions. Yo
 - "I like the first outfit you suggested, what shoes would go with it?"
 - "Can you suggest something similar but more formal?"
 
+### Chat management
+
+Your chat list shows your saved conversations. You can open an existing chat, start a new chat, or delete a chat you no longer want. The active chat is the conversation you are currently using.
+
+### Chat limits and nudges
+
+Aria may keep track of the length of your conversation. If the chat reaches its limit, it may become full and Aria may stop responding until you start a fresh chat. Your style profile is not affected.
+
+Aria may send a nudge after a set number of replies. The nudge is a gentle prompt to help keep the conversation useful. It may suggest starting fresh or refocusing on your style needs.
+
+### Starting or deleting a chat
+
+You can start a new chat whenever you want. You can also delete a chat you no longer need. Deleting a chat removes that conversation history, but your style profile is not affected.
+
 ---
 
 ## Sharing Reference Images
 
 You can share images with Aria during a conversation. This is useful when you want to refer to a style you like, an outfit you already own, or a look you want to recreate.
 
-**To share an image:**
+**To share images:**
 
 1. Tap the **📎 paperclip** button next to the text box
-2. Select an image from your phone or device
-3. A preview chip will appear showing your selected image
-4. Type your message or question alongside the image
+2. Select one to three images from your phone or device
+3. A preview chip will appear showing your selected images
+4. Type your message or question alongside the images
 5. Tap send
 
 ![Image preview page](./screenshots/image-preview.jpg)
 
-Aria will analyze the image and incorporate what she sees into her response. For example, if you share a photo of a jacket you own, she can suggest outfits built around it.
+You can attach up to three reference images per message. Each image must be 10 MB or smaller. Aria can analyze the images and incorporate what she sees into her response. For example, if you share photos of a jacket and shoes you own, she can suggest outfits built around them.
+
+Aria may adjust or resize images for analysis when needed.
 
 **What kinds of images work best:**
 - Clothing items or full outfits
